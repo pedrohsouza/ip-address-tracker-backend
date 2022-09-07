@@ -18,6 +18,11 @@ app.set('trust proxy', 1)
 // Enable cors
 app.use(cors())
 
+// root
+app.get('/', (req, res) => {
+  res.send('add /api at the end of the url')
+})
+
 // Routes
 app.use('/api', require('./routes/index'))
 
