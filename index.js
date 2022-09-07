@@ -3,7 +3,7 @@ const cors = require('cors')
 const rateLimit = require('express-rate-limit')
 require('dotenv').config()
 
-const PORT = process.env.POR || 3000
+const PORT = process.env.PORT || 3000
 
 const app = express()
 
