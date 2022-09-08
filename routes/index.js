@@ -43,7 +43,10 @@ router.get('/', cache('1 day'), async (req, res) => {
         console.log(error)
         res.send(error)
       }
+    } else if ('ip' in req.query) {
+      connectToApi()
     } else {
+      req.query.ip = req.headers['x-forwarded-for']
       connectToApi()
     }
   } catch (error) {
