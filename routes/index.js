@@ -14,20 +14,24 @@ let cache = apicache.middleware
 
 router.get('/', cache('1 day'), async (req, res) => {
   async function connectToApi() {
-    const params = new URLSearchParams({
-      [API_KEY_NAME]: API_KEY_VALUE,
-      ...req.query
-    })
+    try {
+      const params = new URLSearchParams({
+        [API_KEY_NAME]: API_KEY_VALUE,
+        ...req.query
+      })
 
-    const apiRes = await needle('get', `${API_BASE_URL}?${params}`)
-    const data = apiRes.body
+      const apiRes = await needle('get', `${API_BASE_URL}?${params}`)
+      const data = apiRes.body
 
-    // Log the request to the public API
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(`REQUEST: ${API_BASE_URL}?${params}`)
+      // Log the request to the public API
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(`REQUEST: ${API_BASE_URL}?${params}`)
+      }
+
+      res.status(200).json(data)
+    } catch (error) {
+      res.status(500).json({ error })
     }
-
-    res.status(200).json(data)
   }
 
   try {
