@@ -34,6 +34,7 @@ router.get('/', cache('1 day'), async (req, res) => {
     // Resolve a domain if needed
     if ('domain' in req.query) {
       const domain = req.query.domain
+      delete req.query.domain
       try {
         let obj = await dns.promises.resolveAny(domain)
         ipAddress = obj[0].address
