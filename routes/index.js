@@ -39,15 +39,10 @@ router.get('/', cache('1 day'), async (req, res) => {
     if ('domain' in req.query) {
       const domain = req.query.domain
       delete req.query.domain
-      try {
-        let obj = await dns.promises.resolveAny(domain)
-        ipAddress = obj[0].address
-        req.query.ip = ipAddress
-        connectToApi()
-      } catch (error) {
-        console.log(error)
-        res.send(error)
-      }
+      let obj = await dns.promises.resolve(domain)
+      ipAddress = obj[0]
+      req.query.ip = ipAddress
+      connectToApi()
     } else if ('ip' in req.query) {
       connectToApi()
     } else {
